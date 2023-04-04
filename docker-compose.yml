@@ -5,10 +5,10 @@ services:
     image: wordpress:fpm-alpine
     restart: always
     environment:
-      WORDPRESS_DB_HOST: 
-      WORDPRESS_DB_USER:
-      WORDPRESS_DB_PASSWORD: 
-      WORDPRESS_DB_NAME: 
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_USER: cessur
+      WORDPRESS_DB_PASSWORD: 030118002
+      WORDPRESS_DB_NAME: vize
     volumes:
       - wordpress:/var/www/html
     depends_on:
@@ -18,10 +18,10 @@ services:
     image: mariadb
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 
-      MYSQL_DATABASE: 
-      MYSQL_USER: 
-      MYSQL_PASSWORD: 
+      MYSQL_ROOT_PASSWORD: 030118002
+      MYSQL_DATABASE: vize
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 030118002
     volumes:
       - mariadb:/var/lib/mysql
 
