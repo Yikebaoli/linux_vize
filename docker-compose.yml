@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  wordpress:
+    image: wordpress:fpm-alpine
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: 
+      WORDPRESS_DB_USER:
+      WORDPRESS_DB_PASSWORD: 
+      WORDPRESS_DB_NAME: 
+    volumes:
+      - wordpress:/var/www/html
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_DATABASE: 
+      MYSQL_USER: 
+      MYSQL_PASSWORD: 
+    volumes:
+      - mariadb:/var/lib/mysql
+
+  nginx:
+    image: nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - nginx:/etc/nginx/conf.d
+      - wordpress:/var/www/html
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - wordpress
+
+  certbot:
+    image: certbot/certbot
+    restart: always
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    command: certonly --webroot --webroot-path=/var/www/html --email cessurmusabay@gmail.com --agree-tos --no-eff-email -d cessurmusabay.studio
+    depends_on:
+      - nginx
+
+volumes:
+  wordpress:
+  mariadb:
+  nginx:
+  certbot-etc:
+  certbot-var:
